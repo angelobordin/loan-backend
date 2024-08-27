@@ -27,10 +27,27 @@ public class LoanController {
         Loan newLoan = this.loanService.create(body);
         return ResponseEntity.ok(newLoan);
     }
+
+    @GetMapping({"/{id}"})
+    public ResponseEntity<LoanResponseDTO> getLoanById(@PathVariable Long id) {
+        LoanResponseDTO loan = this.loanService.getLoanById(id);
+        return ResponseEntity.ok(loan);
+    }
     
     @GetMapping
     public ResponseEntity<List<LoanResponseDTO>> getLoanList() {
         List<LoanResponseDTO> loans = this.loanService.getLoanList();
         return ResponseEntity.ok(loans);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Loan> updateLoanById(@PathVariable Long id, @RequestBody LoanRequestDTO loanDetails) {
+        Loan loan = this.loanService.updateLoanById(id, loanDetails);
+        return ResponseEntity.ok(loan);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteLoanById(@PathVariable Long id) {
+        return ResponseEntity.ok(this.loanService.deleteLoanById(id));
     }
 }
