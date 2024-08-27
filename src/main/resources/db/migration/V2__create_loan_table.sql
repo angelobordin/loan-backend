@@ -4,8 +4,6 @@ CREATE TABLE loan (
     moeda VARCHAR(3) NOT NULL,
     valorObtido NUMERIC NOT NULL,
     dataVencimento TIMESTAMP NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     customer_id INTEGER,
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE
 );
