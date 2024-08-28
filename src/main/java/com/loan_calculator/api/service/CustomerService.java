@@ -1,6 +1,5 @@
 package com.loan_calculator.api.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,8 +10,6 @@ import com.loan_calculator.api.domain.customer.Customer;
 import com.loan_calculator.api.domain.customer.CustomerRequestDTO;
 import com.loan_calculator.api.domain.customer.CustomerResponseDTO;
 import com.loan_calculator.api.repositories.CustomerRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CustomerService {

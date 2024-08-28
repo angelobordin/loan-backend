@@ -41,7 +41,7 @@ public class LoanService {
 
     public LoanResponseDTO getLoanById(Long id) {
         Loan loan = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan not found")); 
-        return new LoanResponseDTO(l.getId(), l.getDataEmprestimo(), l.getMoeda(), l.getValorObtido(), l.getDataVencimento(), l.getCustomer());
+        return new LoanResponseDTO(loan.getId(), loan.getDataEmprestimo(), loan.getMoeda(), loan.getValorObtido(), loan.getDataVencimento(), loan.getCustomer());
     }
 
     public List<LoanResponseDTO> getLoanList() {
@@ -57,13 +57,12 @@ public class LoanService {
     public Loan updateLoanById(Long id, LoanRequestDTO loanDetails) {
         Loan loan = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan not found"));
         
-        Loan updatedLoan = new Loan(
-                loan.getId(),
-                loanDetails.dataEmprestimo() != null ? loanDetails.dataEmprestimo() : loan.getDataEmprestimo(),
-                loanDetails.moeda() != null ? loanDetails.moeda() : loan.getMoeda(),
-                loanDetails.valorObtido() != null ? loanDetails.valorObtido() : loan.getValorObtido(),
-                loanDetails.dataVencimento() != null ? loanDetails.dataVencimento() : loan.getDataVencimento(),
-        );
+        Loan updatedLoan = new Loan();
+        updatedLoan.setId(loan.getId());
+        updatedLoan.setDataEmprestimo(loanDetails.dataEmprestimo() != null ? loanDetails.dataEmprestimo() : loan.getDataEmprestimo());
+        updatedLoan.setMoeda(loanDetails.moeda() != null ? loanDetails.moeda() : loan.getMoeda());
+        updatedLoan.setValorObtido(loanDetails.valorObtido() != null ? loanDetails.valorObtido() : loan.getValorObtido());
+        updatedLoan.setDataVencimento(loanDetails.dataVencimento() != null ? loanDetails.dataVencimento() : loan.getDataVencimento());
 
         return this.repository.save(updatedLoan);
     }
