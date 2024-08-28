@@ -17,6 +17,7 @@ import com.loan_calculator.api.domain.loan.Loan;
 import com.loan_calculator.api.domain.loan.LoanRequestDTO;
 import com.loan_calculator.api.domain.loan.LoanResponseDTO;
 import com.loan_calculator.api.service.LoanService;
+import com.loan_calculator.api.web.ApiResponse;
 
 @RestController
 @RequestMapping("/api/loan")
@@ -26,31 +27,37 @@ public class LoanController {
     private LoanService loanService;
 
     @PostMapping
-    public ResponseEntity<Loan> create(@RequestBody LoanRequestDTO body) {
+    public ResponseEntity<ApiResponse<Loan>> create(@RequestBody LoanRequestDTO body) {
         Loan newLoan = this.loanService.create(body);
-        return ResponseEntity.ok(newLoan);
+        ApiResponse<Loan> response = new ApiResponse<>("Loan created successfully", newLoan);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping({"/{id}"})
-    public ResponseEntity<LoanResponseDTO> getLoanById(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<LoanResponseDTO>> getLoanById(@PathVariable Long id) {
         LoanResponseDTO loan = this.loanService.getLoanById(id);
-        return ResponseEntity.ok(loan);
+        ApiResponse<LoanResponseDTO> response = new ApiResponse<>("Loan retrieved successfully", loan);
+        return ResponseEntity.ok(response);
     }
-    
+
     @GetMapping
-    public ResponseEntity<List<LoanResponseDTO>> getLoanList() {
+    public ResponseEntity<ApiResponse<List<LoanResponseDTO>>> getLoanList() {
         List<LoanResponseDTO> loans = this.loanService.getLoanList();
-        return ResponseEntity.ok(loans);
+        ApiResponse<List<LoanResponseDTO>> response = new ApiResponse<>("Loan list retrieved successfully", loans);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Loan> updateLoanById(@PathVariable Long id, @RequestBody LoanRequestDTO loanDetails) {
+    public ResponseEntity<ApiResponse<Loan>> updateLoanById(@PathVariable Long id, @RequestBody LoanRequestDTO loanDetails) {
         Loan loan = this.loanService.updateLoanById(id, loanDetails);
-        return ResponseEntity.ok(loan);
+        ApiResponse<Loan> response = new ApiResponse<>("Loan updated successfully", loan);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLoanById(@PathVariable Long id) {
-        return ResponseEntity.ok(this.loanService.deleteLoanById(id));
+    public ResponseEntity<ApiResponse<String>> deleteLoanById(@PathVariable Long id) {
+        String message = this.loanService.deleteLoanById(id);
+        ApiResponse<String> response = new ApiResponse<>(message, null);
+        return ResponseEntity.ok(response);
     }
 }

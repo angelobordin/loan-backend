@@ -5,6 +5,6 @@ import java.time.LocalDateTime;
 
 import com.loan_calculator.api.domain.customer.Customer;
 
-public record LoanResponseDTO(Long id, LocalDateTime dataEmprestimo, String moeda, BigDecimal valorObtido, LocalDateTime dataVencimento, Customer customer) {
+public record LoanResponseDTO(Long id, LocalDateTime data_emprestimo, String moeda, BigDecimal valor_obtido, LocalDateTime data_vencimento, BigDecimal valor_final, Customer customer) {
 
 }

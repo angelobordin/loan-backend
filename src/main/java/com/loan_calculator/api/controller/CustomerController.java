@@ -17,40 +17,46 @@ import com.loan_calculator.api.domain.customer.Customer;
 import com.loan_calculator.api.domain.customer.CustomerRequestDTO;
 import com.loan_calculator.api.domain.customer.CustomerResponseDTO;
 import com.loan_calculator.api.service.CustomerService;
+import com.loan_calculator.api.web.ApiResponse;
 
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
-
     @Autowired
     private CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> create(@RequestBody CustomerRequestDTO body) {
+    public ResponseEntity<ApiResponse<Customer>> create(@RequestBody CustomerRequestDTO body) {
         Customer newCustomer = this.customerService.create(body);
-        return ResponseEntity.ok(newCustomer);
+        ApiResponse<Customer> response = new ApiResponse<>("Customer created successfully", newCustomer);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping({"/{id}"})
-    public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> getCustomerById(@PathVariable Long id) {
         CustomerResponseDTO customer = this.customerService.getCustomerById(id);
-        return ResponseEntity.ok(customer);
+        ApiResponse<CustomerResponseDTO> response = new ApiResponse<>("Customer retrieved successfully", customer);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerResponseDTO>> getCustomerList() {
+    public ResponseEntity<ApiResponse<List<CustomerResponseDTO>>> getCustomerList() {
         List<CustomerResponseDTO> customers = this.customerService.getCustomerList();
-        return ResponseEntity.ok(customers);
+        ApiResponse<List<CustomerResponseDTO>> response = new ApiResponse<>("Customer list retrieved successfully", customers);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomerById(@PathVariable Long id, @RequestBody CustomerRequestDTO loanDetails) {
+    public ResponseEntity<ApiResponse<Customer>> updateCustomerById(@PathVariable Long id, @RequestBody CustomerRequestDTO loanDetails) {
         Customer customer = this.customerService.updateCustomerById(id, loanDetails);
-        return ResponseEntity.ok(customer);
+        ApiResponse<Customer> response = new ApiResponse<>("Customer updated successfully", customer);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomerById(@PathVariable Long id) {
-        return ResponseEntity.ok(this.customerService.deleteCustomerById(id));
+    public ResponseEntity<ApiResponse<String>> deleteCustomerById(@PathVariable Long id) {
+        String message = this.customerService.deleteCustomerById(id);
+        ApiResponse<String> response = new ApiResponse<>(message, null);
+        return ResponseEntity.ok(response);
     }
 }

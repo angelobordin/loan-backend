@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.loan_calculator.api.domain.customer.Customer;
-import com.loan_calculator.api.domain.customer.CustomerResponseDTO;
 import com.loan_calculator.api.domain.loan.Loan;
 import com.loan_calculator.api.domain.loan.LoanRequestDTO;
 import com.loan_calculator.api.domain.loan.LoanResponseDTO;
@@ -29,10 +28,11 @@ public class LoanService {
 
         Loan newLoan = new Loan();
         newLoan.setCustomer(customer);
-        newLoan.setDataEmprestimo(data.dataEmprestimo());
+        newLoan.setData_emprestimo(data.data_emprestimo());
         newLoan.setMoeda(data.moeda());
-        newLoan.setValorObtido(data.valorObtido());
-        newLoan.setDataVencimento(data.dataVencimento());
+        newLoan.setValor_obtido(data.valor_obtido());
+        newLoan.setValor_final(data.valor_final());
+        newLoan.setData_vencimento(data.data_vencimento());
 
         this.repository.save(newLoan);
 
@@ -41,12 +41,12 @@ public class LoanService {
 
     public LoanResponseDTO getLoanById(Long id) {
         Loan loan = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan not found")); 
-        return new LoanResponseDTO(loan.getId(), loan.getDataEmprestimo(), loan.getMoeda(), loan.getValorObtido(), loan.getDataVencimento(), loan.getCustomer());
+        return new LoanResponseDTO(loan.getId(), loan.getData_emprestimo(), loan.getMoeda(), loan.getValor_obtido(), loan.getData_vencimento(), loan.getValor_final(), loan.getCustomer());
     }
 
     public List<LoanResponseDTO> getLoanList() {
         List<Loan> loans = this.repository.findAll();
-        return loans.stream().map((Loan l) -> new LoanResponseDTO(l.getId(), l.getDataEmprestimo(), l.getMoeda(), l.getValorObtido(), l.getDataVencimento(), l.getCustomer())).collect(Collectors.toList());
+        return loans.stream().map((Loan l) -> new LoanResponseDTO(l.getId(), l.getData_emprestimo(), l.getMoeda(), l.getValor_obtido(), l.getData_vencimento(), l.getValor_final(), l.getCustomer())).collect(Collectors.toList());
     }
 
     public String deleteLoanById(Long id) {
@@ -59,10 +59,11 @@ public class LoanService {
         
         Loan updatedLoan = new Loan();
         updatedLoan.setId(loan.getId());
-        updatedLoan.setDataEmprestimo(loanDetails.dataEmprestimo() != null ? loanDetails.dataEmprestimo() : loan.getDataEmprestimo());
+        updatedLoan.setData_emprestimo(loanDetails.data_emprestimo() != null ? loanDetails.data_emprestimo() : loan.getData_emprestimo());
         updatedLoan.setMoeda(loanDetails.moeda() != null ? loanDetails.moeda() : loan.getMoeda());
-        updatedLoan.setValorObtido(loanDetails.valorObtido() != null ? loanDetails.valorObtido() : loan.getValorObtido());
-        updatedLoan.setDataVencimento(loanDetails.dataVencimento() != null ? loanDetails.dataVencimento() : loan.getDataVencimento());
+        updatedLoan.setValor_obtido(loanDetails.valor_obtido() != null ? loanDetails.valor_obtido() : loan.getValor_obtido());
+        updatedLoan.setValor_final(loanDetails.valor_final() != null ? loanDetails.valor_final() : loan.getValor_final());
+        updatedLoan.setData_vencimento(loanDetails.data_vencimento() != null ? loanDetails.data_vencimento() : loan.getData_vencimento());
 
         return this.repository.save(updatedLoan);
     }

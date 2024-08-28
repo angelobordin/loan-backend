@@ -28,13 +28,15 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dataEmprestimo;
+    private LocalDateTime data_emprestimo;
 
     private String moeda;
 
-    private BigDecimal valorObtido;
+    private BigDecimal valor_obtido;
 
-    private LocalDateTime dataVencimento;
+    private BigDecimal valor_final;
+
+    private LocalDateTime data_vencimento;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

@@ -1,5 +1,5 @@
 CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
     name VARCHAR(60) NOT NULL,
-    cpf CHAR(11) NOT NULL
+    cpf CHAR(11) NOT NULL UNIQUE
 );
