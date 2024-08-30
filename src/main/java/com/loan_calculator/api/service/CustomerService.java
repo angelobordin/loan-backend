@@ -63,17 +63,9 @@ public class CustomerService {
 
     public Customer updateCustomerById(Long id, CustomerRequestDTO customerDetails) {
         Customer customer = this.repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente não localizado"));
-
-        Optional<Customer> customerRegistered = this.repository.findByCpf(customerDetails.cpf());
-        if (customerRegistered.isPresent()) {
-            throw new EntityDuplicateException("CPF já vinculado a um cliente!");
-        }
         
-        Customer updatedCustomer = new Customer(
-                customer.getId(),
-                customerDetails.cpf() != null ? customerDetails.cpf() : customer.getCpf(),
-                customerDetails.name() != null ? customerDetails.name() : customer.getName()
-        );
+        Customer updatedCustomer = new Customer();
+        updatedCustomer.setCpf(customerDetails.name() != null ? customerDetails.name() : customer.getName());
 
         return this.repository.save(updatedCustomer);
     }
