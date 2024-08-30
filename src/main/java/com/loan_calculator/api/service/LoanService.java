@@ -13,9 +13,10 @@ import com.loan_calculator.api.domain.loan.LoanResponseDTO;
 import com.loan_calculator.api.repositories.CustomerRepository;
 import com.loan_calculator.api.repositories.LoanRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class LoanService {
-
     
     @Autowired
     private CustomerRepository customerRepository;
@@ -24,7 +25,7 @@ public class LoanService {
     private LoanRepository repository;
 
     public Loan create(LoanRequestDTO data) {
-        Customer customer = this.customerRepository.findById(data.customer_id()).orElseThrow(() -> new IllegalArgumentException("Customer not found")); 
+        Customer customer = this.customerRepository.findById(data.customer_id()).orElseThrow(() -> new EntityNotFoundException("Cliente não localizado!")); 
 
         Loan newLoan = new Loan();
         newLoan.setCustomer(customer);
@@ -40,7 +41,7 @@ public class LoanService {
     }
 
     public LoanResponseDTO getLoanById(Long id) {
-        Loan loan = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan not found")); 
+        Loan loan = this.repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Empréstimo não localizado")); 
         return new LoanResponseDTO(loan.getId(), loan.getData_emprestimo(), loan.getMoeda(), loan.getValor_obtido(), loan.getData_vencimento(), loan.getValor_final(), loan.getCustomer());
     }
 
@@ -55,7 +56,7 @@ public class LoanService {
     }
     
     public Loan updateLoanById(Long id, LoanRequestDTO loanDetails) {
-        Loan loan = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan not found"));
+        Loan loan = this.repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Empréstimo não localizado"));
         
         Loan updatedLoan = new Loan();
         updatedLoan.setId(loan.getId());
